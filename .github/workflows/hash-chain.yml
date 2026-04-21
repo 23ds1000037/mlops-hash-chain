@@ -1,0 +1,29 @@
+name: Hash Chain Verify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate verify hash (b7033d2b)
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          INPUT="${MY_SECRET}github-verified"
+          HASH=$(echo -n "$INPUT" | sha256sum | cut -c1-10)
+          echo "github-verified"
+          echo "Marker: b7033d2b"
+          echo "$HASH" > verify-hash-b7033d2b.txt
+
+      - name: Upload artifact verify-hash-b7033d2b
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-hash-b7033d2b
+          path: verify-hash-b7033d2b.txt
