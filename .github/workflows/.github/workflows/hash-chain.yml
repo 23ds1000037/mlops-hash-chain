@@ -20,7 +20,6 @@ jobs:
           HASH=$(echo -n "$INPUT" | sha256sum | cut -c1-10)
           echo "github-verified"
           echo "Marker: b7033d2b"
-          echo "verify_hash=$HASH" >> $GITHUB_OUTPUT
           echo "$HASH" > verify-hash-b7033d2b.txt
 
       - name: Upload artifact verify-hash-b7033d2b
